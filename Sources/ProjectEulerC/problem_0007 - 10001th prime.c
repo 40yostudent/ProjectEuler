@@ -1,9 +1,13 @@
 #include "ProjectEulerC.h"
 
-// 10001th prime number
+// nth prime number algorithm
 void problem_0007() {
     const int PRIMESLENGTH = 10001;
-    int primes[PRIMESLENGTH];
+    int* primes = (int*) malloc(PRIMESLENGTH * sizeof(int));
+    
+    // proven that all primes are in the form '6k +/- 1', this is a switch
+    // to advance the candidate of +2 or +4, to be xored with 1 every loop.
+    char form_6k_pm1 = 0;
 
     for (int i = 0; i < PRIMESLENGTH; ++i) {
         primes[i] = 0;
@@ -16,37 +20,33 @@ void problem_0007() {
     primes[4] = 11;
     primes[5] = 13;
 
-    int candidate = 15;
+    int candidate = 17;
     int firstEmptyIndex = 6;
-    
-    // printf("LIST OF FIRST %d PRIMES:\n", PRIMESLENGTH);
-    // printf("2, 3, 5, 7, 11, 13, ");
+    int* lastPrimeInList = primes + PRIMESLENGTH - 1;
 
-    while (primes[PRIMESLENGTH-1] == 0) {
+    while (*lastPrimeInList == 0) {
         
-        int factorIndex = 1;
+        int* factor = primes + 1;
         bool isPrime = true;
 
-        while (primes[factorIndex] * primes[factorIndex] <= candidate) {
+        while (*factor * *factor <= candidate) {
 
-            if (candidate % primes[factorIndex] == 0) {
+            if (candidate % *factor == 0) {
                 isPrime = false;
                 break;
             }
             
-            ++factorIndex;
+            ++factor;
         }
         
         if (isPrime) {
-            // printf("%d, ", candidate);
             primes[firstEmptyIndex] = candidate;
             ++firstEmptyIndex;
         }
 
-        candidate += 2;
+        candidate += form_6k_pm1 ? 4 : 2;
+        form_6k_pm1 ^= 1;
     }
 
-    printf("\n");
-    printf("the %dth prime is: %d", PRIMESLENGTH, primes[PRIMESLENGTH-1]);
-    printf("\n");
+    printf("\nthe %dth prime is: %d\n", PRIMESLENGTH, *lastPrimeInList);
 }
