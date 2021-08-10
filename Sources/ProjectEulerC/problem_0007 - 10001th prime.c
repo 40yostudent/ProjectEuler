@@ -1,6 +1,6 @@
 #include "ProjectEulerC.h"
 
-// nth prime number algorithm
+// Returns nth prime number algorithm
 void problem_0007() {
     const int PRIMESLENGTH = 10001;
     int* primes = (int*) malloc(PRIMESLENGTH * sizeof(int));
