@@ -3,15 +3,11 @@
 // Returns nth prime number algorithm
 void problem_0007() {
     const int PRIMESLENGTH = 10001;
-    int* primes = (int*) malloc(PRIMESLENGTH * sizeof(int));
+    int* primes = calloc(PRIMESLENGTH, sizeof(int));
     
     // proven that all primes are in the form '6k +/- 1', this is a switch
     // to advance the candidate of +2 or +4, to be xored with 1 every loop.
-    char form_6k_pm1 = 0;
-
-    for (int i = 0; i < PRIMESLENGTH; ++i) {
-        primes[i] = 0;
-    }
+    bool form_6k_pm1 = false;
 
     primes[0] = 2;
     primes[1] = 3;
